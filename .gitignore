@@ -1,9 +1,18 @@
+.idea
+.vscode
+
 # Binaries for programs and plugins
 *.exe
 *.exe~
 *.dll
 *.so
 *.dylib
+*.darwin
+*.darwin~
+*.linux
+*.linux~
+
+kreditmu-v3-api
 
 # Test binary, built with `go test -c`
 *.test
@@ -12,4 +21,19 @@
 *.out
 
 # Dependency directories (remove the comment below to include it)
-# vendor/
+vendor/
+microservices_pgdata/
+zk-single-kafka-single/
+
+*.env
+
+*.rsa
+*.pub
+*.log
+*.conf
+
+# Temp
+tmp/
+
+# Log
+logs/

@@ -1,0 +1,270 @@
+basePath: /api
+definitions:
+  domain.ArticlePaginationResponse:
+    properties:
+      articles:
+        items:
+          $ref: '#/definitions/domain.ArticleResponse'
+        type: array
+      has_more:
+        type: boolean
+      page:
+        type: integer
+      size:
+        type: integer
+      total_count:
+        type: integer
+      total_pages:
+        type: integer
+    type: object
+  domain.ArticleResponse:
+    properties:
+      author:
+        type: string
+      body:
+        type: string
+      created_at:
+        type: string
+      id:
+        type: integer
+      title:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  domain.CreateArticleRequest:
+    properties:
+      author:
+        type: string
+      body:
+        type: string
+      title:
+        type: string
+    type: object
+  swagger.BadRequestErrorValidationResponse:
+    properties:
+      code:
+        example: KDMU-02-006
+        type: string
+      data: {}
+      errors: {}
+      message:
+        example: permintaan tidak valid, kesalahan muncul ketika permintaan Anda memiliki
+          parameter yang tidak valid.
+        type: string
+      request_id:
+        example: 24fa3770-628c-49de-aa17-3a338f73d99b
+        type: string
+      timestamp:
+        example: "2022-04-27 23:19:56"
+        type: string
+    type: object
+  swagger.BaseResponse:
+    properties:
+      code:
+        example: OK
+        type: string
+      data: {}
+      errors: {}
+      message:
+        example: operasi berhasil dieksekusi.
+        type: string
+      request_id:
+        example: 24fa3770-628c-49de-aa17-3a338f73d99b
+        type: string
+      timestamp:
+        example: "2022-04-27 23:19:56"
+        type: string
+    type: object
+  swagger.InternalServerErrorResponse:
+    properties:
+      code:
+        example: KDMU-02-008
+        type: string
+      data: {}
+      errors: {}
+      message:
+        example: terjadi kesalahan, silakan hubungi administrator.
+        type: string
+      request_id:
+        example: 24fa3770-628c-49de-aa17-3a338f73d99b
+        type: string
+      timestamp:
+        example: "2022-04-27 23:19:56"
+        type: string
+    type: object
+  swagger.RequestTimeoutResponse:
+    properties:
+      code:
+        example: KDMU-02-009
+        type: string
+      data: {}
+      errors: {}
+      message:
+        example: permintaan telah melampaui batas waktu, harap request kembali.
+        type: string
+      request_id:
+        example: 24fa3770-628c-49de-aa17-3a338f73d99b
+        type: string
+      timestamp:
+        example: "2022-04-27 23:19:56"
+        type: string
+    type: object
+  swagger.ValidationErrors:
+    properties:
+      field:
+        example: MobilePhone wajib diisi.
+        type: string
+      message:
+        example: ActiveDate harus format yang benar yyyy-mm-dd.
+        type: string
+    type: object
+info:
+  contact:
+    email: mohradyatama24@gmail.com
+    name: radyatama
+  description: api "API Gateway v1"
+  title: Api Gateway V1
+  version: v1
+paths:
+  /v1/articles:
+    get:
+      parameters:
+      - description: lang
+        in: header
+        name: Accept-Language
+        type: string
+      - description: size
+        in: query
+        name: size
+        type: integer
+      - description: page
+        in: query
+        name: page
+        type: integer
+      - description: search by body or title
+        in: query
+        name: search
+        type: string
+      - description: filter by author
+        in: query
+        name: author
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/swagger.BaseResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/domain.ArticlePaginationResponse'
+                  type: array
+                errors:
+                  items:
+                    type: object
+                  type: array
+              type: object
+        "408":
+          description: Request Timeout
+          schema:
+            allOf:
+            - $ref: '#/definitions/swagger.RequestTimeoutResponse'
+            - properties:
+                data:
+                  type: object
+                errors:
+                  items:
+                    type: object
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/swagger.InternalServerErrorResponse'
+            - properties:
+                data:
+                  type: object
+                errors:
+                  items:
+                    type: object
+                  type: array
+              type: object
+      summary: Get All Articles
+      tags:
+      - Article
+    post:
+      parameters:
+      - description: lang
+        in: header
+        name: Accept-Language
+        type: string
+      - description: request payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/domain.CreateArticleRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/swagger.BaseResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/domain.CreateArticleRequest'
+                errors:
+                  items:
+                    type: object
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/swagger.BadRequestErrorValidationResponse'
+            - properties:
+                data:
+                  type: object
+                errors:
+                  items:
+                    $ref: '#/definitions/swagger.ValidationErrors'
+                  type: array
+              type: object
+        "408":
+          description: Request Timeout
+          schema:
+            allOf:
+            - $ref: '#/definitions/swagger.RequestTimeoutResponse'
+            - properties:
+                data:
+                  type: object
+                errors:
+                  items:
+                    type: object
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/swagger.InternalServerErrorResponse'
+            - properties:
+                data:
+                  type: object
+                errors:
+                  items:
+                    type: object
+                  type: array
+              type: object
+      summary: Create Data Article
+      tags:
+      - Article
+swagger: "2.0"

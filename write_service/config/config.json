@@ -1,0 +1,43 @@
+{
+  "app": {
+    "port": "5000",
+    "serviceName": "writer_service",
+    "executionTimeout" : 5000,
+    "checkIntervalSeconds" : 10,
+    "logPath": "./logs/write_service.log",
+    "slackWebhookUrlLog": ""
+  },
+  "database": {
+    "driver": "postgres",
+    "host": "localhost",
+    "port": 5432,
+    "name": "articles",
+    "username": "postgres",
+    "password": "admin",
+    "options": "TimeZone=Asia/Jakarta",
+    "maxOpenConnections": 20,
+    "maxIdleConnections": 20,
+    "maxLifetime": 300
+  },
+  "kafkaTopics" : {
+    "articleCreate" : {
+      "topicName" : "article_create",
+      "partitions" : 10,
+      "replicationFactor" : 1
+    },
+    "articleCreated" : {
+      "topicName" : "article_created",
+      "partitions" : 10,
+      "replicationFactor" : 1
+    }
+  },
+  "kafka": {
+    "brokers" : [ "localhost:9092" ],
+    "groupID" : "writer_microservice_consumer",
+    "initTopics" : true
+  },
+  "grpc": {
+    "port" : "5004",
+    "development" : true
+  }
+}

@@ -1,0 +1,429 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "api \"API Gateway v1\"",
+        "title": "Api Gateway V1",
+        "contact": {
+            "name": "radyatama",
+            "email": "mohradyatama24@gmail.com"
+        },
+        "version": "v1"
+    },
+    "basePath": "/api",
+    "paths": {
+        "/v1/articles": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Article"
+                ],
+                "summary": "Get All Articles",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "lang",
+                        "name": "Accept-Language",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "size",
+                        "name": "size",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "page",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "search by body or title",
+                        "name": "search",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "filter by author",
+                        "name": "author",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/swagger.BaseResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/domain.ArticlePaginationResponse"
+                                            }
+                                        },
+                                        "errors": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "408": {
+                        "description": "Request Timeout",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/swagger.RequestTimeoutResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "errors": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/swagger.InternalServerErrorResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "errors": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Article"
+                ],
+                "summary": "Create Data Article",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "lang",
+                        "name": "Accept-Language",
+                        "in": "header"
+                    },
+                    {
+                        "description": "request payload",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/domain.CreateArticleRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/swagger.BaseResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/domain.CreateArticleRequest"
+                                        },
+                                        "errors": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/swagger.BadRequestErrorValidationResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "errors": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/swagger.ValidationErrors"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "408": {
+                        "description": "Request Timeout",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/swagger.RequestTimeoutResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "errors": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/swagger.InternalServerErrorResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "errors": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "domain.ArticlePaginationResponse": {
+            "type": "object",
+            "properties": {
+                "articles": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/domain.ArticleResponse"
+                    }
+                },
+                "has_more": {
+                    "type": "boolean"
+                },
+                "page": {
+                    "type": "integer"
+                },
+                "size": {
+                    "type": "integer"
+                },
+                "total_count": {
+                    "type": "integer"
+                },
+                "total_pages": {
+                    "type": "integer"
+                }
+            }
+        },
+        "domain.ArticleResponse": {
+            "type": "object",
+            "properties": {
+                "author": {
+                    "type": "string"
+                },
+                "body": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "domain.CreateArticleRequest": {
+            "type": "object",
+            "properties": {
+                "author": {
+                    "type": "string"
+                },
+                "body": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "swagger.BadRequestErrorValidationResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "example": "KDMU-02-006"
+                },
+                "data": {},
+                "errors": {},
+                "message": {
+                    "type": "string",
+                    "example": "permintaan tidak valid, kesalahan muncul ketika permintaan Anda memiliki parameter yang tidak valid."
+                },
+                "request_id": {
+                    "type": "string",
+                    "example": "24fa3770-628c-49de-aa17-3a338f73d99b"
+                },
+                "timestamp": {
+                    "type": "string",
+                    "example": "2022-04-27 23:19:56"
+                }
+            }
+        },
+        "swagger.BaseResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "example": "OK"
+                },
+                "data": {},
+                "errors": {},
+                "message": {
+                    "type": "string",
+                    "example": "operasi berhasil dieksekusi."
+                },
+                "request_id": {
+                    "type": "string",
+                    "example": "24fa3770-628c-49de-aa17-3a338f73d99b"
+                },
+                "timestamp": {
+                    "type": "string",
+                    "example": "2022-04-27 23:19:56"
+                }
+            }
+        },
+        "swagger.InternalServerErrorResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "example": "KDMU-02-008"
+                },
+                "data": {},
+                "errors": {},
+                "message": {
+                    "type": "string",
+                    "example": "terjadi kesalahan, silakan hubungi administrator."
+                },
+                "request_id": {
+                    "type": "string",
+                    "example": "24fa3770-628c-49de-aa17-3a338f73d99b"
+                },
+                "timestamp": {
+                    "type": "string",
+                    "example": "2022-04-27 23:19:56"
+                }
+            }
+        },
+        "swagger.RequestTimeoutResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "example": "KDMU-02-009"
+                },
+                "data": {},
+                "errors": {},
+                "message": {
+                    "type": "string",
+                    "example": "permintaan telah melampaui batas waktu, harap request kembali."
+                },
+                "request_id": {
+                    "type": "string",
+                    "example": "24fa3770-628c-49de-aa17-3a338f73d99b"
+                },
+                "timestamp": {
+                    "type": "string",
+                    "example": "2022-04-27 23:19:56"
+                }
+            }
+        },
+        "swagger.ValidationErrors": {
+            "type": "object",
+            "properties": {
+                "field": {
+                    "type": "string",
+                    "example": "MobilePhone wajib diisi."
+                },
+                "message": {
+                    "type": "string",
+                    "example": "ActiveDate harus format yang benar yyyy-mm-dd."
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,49 @@
+{
+  "app": {
+    "port": "5001",
+    "serviceName": "reader_service",
+    "executionTimeout" : 5000,
+    "checkIntervalSeconds" : 10,
+    "logPath": "./logs/write_service.log",
+    "slackWebhookUrlLog": ""
+  },
+  "kafkaTopics" : {
+    "articleCreate" : {
+      "topicName" : "article_create",
+      "partitions" : 10,
+      "replicationFactor" : 1
+    },
+    "articleCreated" : {
+      "topicName" : "article_created",
+      "partitions" : 10,
+      "replicationFactor" : 1
+    }
+  },
+  "kafka": {
+    "brokers" : [ "localhost:9092" ],
+    "groupID" : "reader_microservice_consumer",
+    "initTopics" : true
+  },
+  "mongo": {
+    "uri": "mongodb://localhost:27017/",
+    "user": "",
+    "password": "",
+    "db": "articles"
+  },
+  "redis": {
+    "addr": "localhost:6379",
+    "password": "",
+    "dB": 0,
+    "poolSize": 300
+  },
+  "mongoCollections": {
+    "articles" : "articles"
+  },
+  "serviceSettings" : {
+    "redisArticlePrefixKey" : "reader:product"
+  },
+  "grpc": {
+    "port" : "5003",
+    "development" : true
+  }
+}
