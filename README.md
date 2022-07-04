@@ -1,1 +1,1 @@
-# go-cqrs-example
+# go-cqrs-microservices
